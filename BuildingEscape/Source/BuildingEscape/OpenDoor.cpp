@@ -20,13 +20,17 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AActor *Owner = GetOwner();
-	FRotator OwnerRotation = Owner->GetActorRotation();
-	UE_LOG(LogTemp, Warning, TEXT("Door Rotation Report: %f"), OwnerRotation.Yaw);
+	// get the player controller pawn
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 
+}
+
+void UOpenDoor::OpenDoor()
+{
+	// change actor rotation
+	AActor *Owner = GetOwner();
 	FRotator NewRotation = FRotator(0.0f, 70.0f, 0.0f);
 	Owner->SetActorRotation(NewRotation);
-
 }
 
 
@@ -35,6 +39,10 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	// ...
+	// Poll Trigger Volume until actor is overlapping it
+	if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	{
+		OpenDoor();
+	}
 }
 
