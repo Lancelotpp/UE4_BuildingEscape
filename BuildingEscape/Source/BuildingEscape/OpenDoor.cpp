@@ -22,9 +22,11 @@ void UOpenDoor::BeginPlay()
 
 	AActor *Owner = GetOwner();
 	FRotator OwnerRotation = Owner->GetActorRotation();
-	FRotator NewRotation = FRotator(0.0f, -70.0f, 0.0f);
-	Owner->SetActorRotation(NewRotation);
 	UE_LOG(LogTemp, Warning, TEXT("Door Rotation Report: %f"), OwnerRotation.Yaw);
+
+	FRotator NewRotation = FRotator(0.0f, 70.0f, 0.0f);
+	Owner->SetActorRotation(NewRotation);
+
 }
 
 
