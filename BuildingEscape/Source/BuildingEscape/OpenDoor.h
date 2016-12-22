@@ -19,17 +19,23 @@ public:
 	virtual void BeginPlay() override;
 
 	void OpenDoor();
+	void CloseDoor();
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = 90.0f;
+	float OpenAngle = 80.0f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume *PressurePlate;
+	UPROPERTY(EditAnywhere)
+	float DoorCloseDelay = 1.0f;
 
+	float LastDoorOpenTime;
+
+	AActor *Owner;
 	AActor *ActorThatOpens; // Pawn inherits from actor
 
 };
