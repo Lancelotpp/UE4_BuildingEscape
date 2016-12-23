@@ -1,6 +1,8 @@
 ##########################
 # Unreal Generated Files #
 ##########################
+!BuildingEscape/Content/StarterContent/SM_Door.uasset
+!BuildingEscape/Content/StarterContent/SM_Chair.uasset
 */Saved
 */Intermediate
 */Build
@@ -13,5 +15,7 @@ BuildingEscape/Content/StarterContent/
 ##########################
 # VS Generated Files #
 ##########################
-*.db
+*.VC.db
 *.suo
+*.VC.opendb
+*.sln
