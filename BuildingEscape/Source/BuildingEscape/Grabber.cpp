@@ -55,7 +55,7 @@ void UGrabber::SetupInputComponent()
 void UGrabber::Grab()
 {
 	// If we hit something with line trace then attach a physics handle
-	FHitResult HitResult = GetFirstPhysicsBodyInReach();
+	auto HitResult = GetFirstPhysicsBodyInReach();
 	if (HitResult.GetActor())
 	{
 		// attach physics handle (grab)
