@@ -19,3 +19,6 @@ BuildingEscape/Content/StarterContent/
 *.suo
 *.VC.opendb
 *.sln
+*.ipch
+*.db-shm
+*.db-wal

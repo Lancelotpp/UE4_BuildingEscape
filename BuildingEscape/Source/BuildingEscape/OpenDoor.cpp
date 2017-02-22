@@ -20,18 +20,10 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 	// get the owner (which door)
 	Owner = GetOwner();
-}
-
-// Change actor rotation : open door
-void UOpenDoor::OpenDoor()
-{
-	Owner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f));
-}
-
-// Change actor rotation : close door
-void UOpenDoor::CloseDoor()
-{
-	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+	if (!PressurePlate) // pressure plate is not found
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s : Missing pressure plate"), *GetOwner()->GetName());
+	}
 }
 
 
@@ -41,15 +33,13 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	// Poll Trigger Volume until mass on volume is > than ...
-	if (GetTotalMassOfActorsOnPlate() > 50.0f) // TODO make the mass nb into parms
+	if (GetTotalMassOfActorsOnPlate() > TriggerMass)
 	{
-		OpenDoor();
-		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
+		OnOpen.Broadcast(); // Change actor rotation : open door by BP class
 	}
-	// check if it's time to close door
-	if (LastDoorOpenTime + DoorCloseDelay < GetWorld()->GetTimeSeconds())
+	else
 	{
-		CloseDoor();
+		OnClose.Broadcast(); // Change actor rotation : close door by BP class
 	}
 }
 
@@ -57,6 +47,7 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 float UOpenDoor::GetTotalMassOfActorsOnPlate()
 {
 	float TotalMass = 0.0f;
+	if (!PressurePlate) { return TotalMass; }
 	// Find all overlapping actor on plate
 	TArray<AActor*> OverlappingActors;
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
